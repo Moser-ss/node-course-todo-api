@@ -50,7 +50,10 @@ app.get('/todos/:id', (req, res) => {
         if (!todo) {
             return res.status(404).send({error: 'Todo not found'})
         }
-        res.status(200).send({todo})
+        res.status(200).send({
+            message: 'Todo added',
+            todo
+        })
     }).catch((err) => {
         res.status(400).send({erro: 'Unable to get data'})
     });
