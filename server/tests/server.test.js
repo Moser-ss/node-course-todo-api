@@ -117,7 +117,7 @@ describe('GET /todos:id', () => {
             .get('/todos/1245')
             .expect(400)
             .expect((res) => {
-                expect(res.body.error).toBe('Id not valid');
+                expect(res.body.error).toBe('ID is not valid');
             })
             .end(done);
     });
@@ -167,7 +167,7 @@ describe('DELETE /todos:id', () => {
             .delete('/todos/1245')
             .expect(400)
             .expect((res) => {
-                expect(res.body.error).toBe('Id not valid');
+                expect(res.body.error).toBe('ID is not valid');
             })
             .end(done);
     })
