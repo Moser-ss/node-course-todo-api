@@ -126,7 +126,7 @@ app.patch('/todos/:id', (req, res) => {
             }
 
             res.send({
-                messge: 'Todo updated',
+                message: 'Todo updated',
                 todo
             });
 
