@@ -51,6 +51,22 @@ UserSchema.methods.generateAuthToken = function(){
             return token
         })
 }
+
+UserSchema.statics.findByToken = function (token) {
+    let User = this;
+
+    try {
+        jwt.verify(token, 'MacOSX')
+    } catch (e) {
+        return Promise.reject(`Authentication failed : ${e.message}`)
+    }
+    let decoded = jwt.decode(token)
+    return User.findOne({
+        '_id': decoded._id,
+        'tokens.token': token,
+        'tokens.access': 'auth'
+    })
+}
 const User = mongoose.model('User', UserSchema);
 
 module.exports = {User}

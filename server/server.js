@@ -16,6 +16,8 @@ const {
     Todo
 } = require('./models/todo');
 
+const {authenticate} = require('./middleware/authenticate.js');
+
 const app = express()
 const port = process.env.PORT
 
@@ -157,6 +159,11 @@ app.post('/users',(req,res) => {
             error
         })
     });
+})
+
+app.get('/users/me', authenticate, (req, res) => {
+    
+    res.send(req.user)
 })
 app.listen(port, () => {
     console.log(`Server started on port ${port}`);
