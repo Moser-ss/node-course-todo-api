@@ -4,7 +4,7 @@
   "description": "App to store notes",
   "main": "app.js",
   "scripts": {
-    "test": "export NODE_ENV=test && mocha server/**/*.test.js",
+    "test": "export NODE_ENV=test && mocha server/**/*.test.js --exit",
     "test-watch": "nodemon --exec \"npm test\"",
     "start": "node server/server.js"
   },
