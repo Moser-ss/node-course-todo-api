@@ -200,7 +200,7 @@ app.get('/users/me', authenticate, (req, res) => {
 app.post('/users/login', (req, res) => {
     let body = _.pick(req.body, ['email', 'password']);
     if (_.isUndefined(body.email) || _.isUndefined(body.password)) {
-        res.status(404).send({
+        return res.status(400).send({
             ok: false,
             message: 'Missing email or password to login'
         })
@@ -210,7 +210,7 @@ app.post('/users/login', (req, res) => {
         .then((user) => {
             return user.generateAuthToken()
                 .then((token) => {
-                    res.status(201).header('x-auth', token).send({
+                    res.header('x-auth', token).send({
                         ok: true,
                         message: 'login successfully ',
                         user

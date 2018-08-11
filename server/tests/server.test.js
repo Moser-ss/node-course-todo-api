@@ -355,8 +355,9 @@ describe('POST /users', () => {
             .expect(201)
             .expect((res) => {
                 expect(res.headers['x-auth']).toExist()
-                expect(res.body._id).toExist()
-                expect(res.body.email).toBe(email)
+                expect(res.body.ok).toBe(true)
+                expect(res.body.user._id).toExist()
+                expect(res.body.user.email).toBe(email)
             })
             .end((err) => {
                 if (err) {
@@ -371,6 +372,7 @@ describe('POST /users', () => {
                         expect(user.password).toNotBe(password)
                         done();
                     })
+                    .catch((error) => done(error))
             })
 
     })
@@ -425,6 +427,105 @@ describe('POST /users', () => {
                 expect(res.body.ok).toBe(false)
                 expect(res.body.message).toBe('Error while trying save user');
                 expect(res.body.error).toExist()
+            })
+            .end(done)
+    })
+})
+
+describe('POST /users/login', () => {
+    it('should login user and return auth token', (done) => {
+        request(app)
+            .post('/users/login')
+            .send({
+                email: users[1].email,
+                password: users[1].password
+            })
+            .expect(200)
+            .expect((res) => {
+                expect(res.body.ok).toBe(true)
+                expect(res.headers['x-auth']).toExist()
+                expect(res.body.user._id).toExist()
+                expect(res.body.user.email).toBe(users[1].email)
+            })
+            .end((error, res) => {
+                if (error) {
+                    return done(error)
+                }
+
+                User.findById(users[1]._id)
+                    .then((user) => {
+                        if (!user) {
+                            return done('Missing User in DB')
+                        }
+
+                        expect(user.tokens[0]).toInclude({
+                            access: 'auth',
+                            token: res.headers['x-auth']
+                        })
+                        done()
+                    })
+                    .catch((error) => done(error))
+            })
+    })
+
+    it('should return 400 if missing parameters', (done) => {
+        request(app)
+            .post('/users/login')
+            .send({
+
+            })
+            .expect(400)
+            .expect((res) => {
+                expect(res.body.ok).toBe(false)
+                expect(res.body.message).toBe('Missing email or password to login')
+            })
+            .end(done)
+    })
+
+    it('should return 401 if password is incorrect', (done) => {
+       request(app)
+           .post('/users/login')
+           .send({
+               email: users[1].email,
+               password: 'Banana'
+           })
+           .expect(401)
+           .expect((res) => {
+               expect(res.body.ok).toBe(false)
+               expect(res.headers['x-auth']).toNotExist()
+               expect(res.body.user).toNotExist()
+               expect(res.body.user).toNotExist()
+               expect(res.body.message).toBe('Invalid password')
+           })
+           .end((error, res) => {
+               if (error) {
+                   return done(error)
+               }
+
+               User.findById(users[1]._id)
+                   .then((user) => {
+                       if (!user) {
+                           return done('Missing User in DB')
+                       }
+
+                       expect(user.tokens.length).toBe(0)
+                       done()
+                   })
+                   .catch((error) => done(error))
+           })
+    })
+
+    it('should return 404 if user dont exist', (done) => {
+        request(app)
+            .post('/users/login')
+            .send({
+                email: 'test5user@example.com',
+                password: 'TestUserPassw'
+            })
+            .expect(404)
+            .expect((res) => {
+                expect(res.body.ok).toBe(false)
+                expect(res.body.message).toBe('User not found')
             })
             .end(done)
     })
