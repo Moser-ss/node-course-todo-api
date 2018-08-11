@@ -39,13 +39,19 @@ UserSchema.methods.toJSON = function () {
     const user = this;
     const userObject = user.toObject()
 
-    return _.pick(userObject,['_id','email'])
+    return _.pick(userObject, ['_id', 'email'])
 }
-UserSchema.methods.generateAuthToken = function(){
+UserSchema.methods.generateAuthToken = function () {
     const user = this;
     const access = 'auth'
-    const token = jwt.sign({_id: user._id, access},'MacOSX').toString()
-    user.tokens = user.tokens.concat([{access, token}]);
+    const token = jwt.sign({
+        _id: user._id,
+        access
+    }, 'MacOSX').toString()
+    user.tokens = user.tokens.concat([{
+        access,
+        token
+    }]);
 
     return user.save()
         .then(() => {
@@ -69,6 +75,27 @@ UserSchema.statics.findByToken = function (token) {
     })
 }
 
+UserSchema.statics.findByCredentials = function (email, password) {
+    let User = this
+    return User.findOne({
+                email
+            })
+            .then((user) => {
+                if (!user) {
+                    return Promise.reject('User not found')
+                }
+
+                let hashedPassword = user.password;
+
+                if (bcrypt.compareSync(password, hashedPassword)) {
+                    return Promise.resolve(user)
+                } else {
+                    return Promise.reject('Invalid password')
+                }
+            })
+    
+}
+
 UserSchema.pre('save', function (next) {
     const user = this;
 
@@ -81,4 +108,6 @@ UserSchema.pre('save', function (next) {
 })
 const User = mongoose.model('User', UserSchema);
 
-module.exports = {User}
+module.exports = {
+    User
+}

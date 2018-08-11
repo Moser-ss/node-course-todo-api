@@ -6,7 +6,8 @@ const authenticate = function (req, res, next) {
         .then((user) => {
             if (!user) {
                 return res.status(404).send({
-                    error: 'User not found'
+                    ok: false,
+                    message: 'User not found'
                 })
             }
             req.user = user;
@@ -15,7 +16,8 @@ const authenticate = function (req, res, next) {
         })
         .catch((error) => {
             res.status(401).send({
-                error
+                ok: false,
+                message: error
             })
         })
 

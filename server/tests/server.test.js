@@ -38,7 +38,8 @@ describe('POST /todos', () => {
             })
             .expect(201)
             .expect((res) => {
-                expect(res.body.text).toBe(text)
+                expect(res.body.ok).toBe(true)
+                expect(res.body.todo.text).toBe(text)
             })
             .end((err, res) => {
                 if (err) {
@@ -63,7 +64,8 @@ describe('POST /todos', () => {
             .send({})
             .expect(400)
             .expect((res) => {
-                expect(res.body.name).toBe('ValidationError')
+                expect(res.body.ok).toBe(false)
+                expect(res.body.message.name).toBe('ValidationError')
             })
             .end((err, res) => {
                 if (err) {
@@ -85,6 +87,7 @@ describe('GET /todos', () => {
             .get('/todos')
             .expect(200)
             .expect((res) => {
+                expect(res.body.ok).toBe(true)
                 expect(res.body.todos.length).toBe(testDataSize);
             })
             .end(done)
@@ -97,6 +100,7 @@ describe('GET /todos:id', () => {
             .get(`/todos/${todos[0]._id.toHexString()}`)
             .expect(200)
             .expect((res) => {
+                expect(res.body.ok).toBe(true)
                 expect(res.body.todo.text).toBe(todos[0].text);
             })
             .end(done);
@@ -108,7 +112,8 @@ describe('GET /todos:id', () => {
             .get(`/todos/${testID.toHexString()}`)
             .expect(404)
             .expect((res) => {
-                expect(res.body.error).toBe('Todo not found');
+                expect(res.body.ok).toBe(false)
+                expect(res.body.message).toBe('Todo not found');
             })
             .end(done);
 
@@ -119,7 +124,8 @@ describe('GET /todos:id', () => {
             .get('/todos/1245')
             .expect(400)
             .expect((res) => {
-                expect(res.body.error).toBe('ID is not valid');
+                expect(res.body.ok).toBe(false)
+                expect(res.body.message).toBe('ID is not valid');
             })
             .end(done);
     });
@@ -133,6 +139,7 @@ describe('DELETE /todos:id', () => {
             .delete(`/todos/${todoId}`)
             .expect(200)
             .expect((res) => {
+                expect(res.body.ok).toBe(true)
                 expect(res.body.message).toBe('Todo deleted');
                 expect(res.body.todo.text).toBe(todos[1].text)
             })
@@ -159,7 +166,8 @@ describe('DELETE /todos:id', () => {
             .delete(`/todos/${testID.toHexString()}`)
             .expect(404)
             .expect((res) => {
-                expect(res.body.error).toBe('Todo not found');
+                expect(res.body.ok).toBe(false)
+                expect(res.body.message).toBe('Todo not found');
             })
             .end(done);
     });
@@ -169,7 +177,8 @@ describe('DELETE /todos:id', () => {
             .delete('/todos/1245')
             .expect(400)
             .expect((res) => {
-                expect(res.body.error).toBe('ID is not valid');
+                expect(res.body.ok).toBe(false)
+                expect(res.body.message).toBe('ID is not valid');
             })
             .end(done);
     })
@@ -188,6 +197,7 @@ describe('PATCH /todos:id', () => {
             .send(updatedData)
             .expect(200)
             .expect((res) => {
+                expect(res.body.ok).toBe(true)
                 const todo = res.body.todo;
                 expect(todo.text).toBe(updatedData.text);
                 expect(todo.completed).toBeTruthy();
@@ -210,6 +220,7 @@ describe('PATCH /todos:id', () => {
             .send(updatedData)
             .expect(200)
             .expect((res) => {
+                expect(res.body.ok).toBe(true)
                 const todo = res.body.todo;
                 expect(todo.text).toBe(updatedData.text);
                 expect(todo.completed).toBeFalsy();
@@ -231,7 +242,8 @@ describe('PATCH /todos:id', () => {
             .send(updatedData)
             .expect(404)
             .expect((res) => {
-                expect(res.body.error).toBe('Todo not found');
+                expect(res.body.ok).toBe(false)
+                expect(res.body.message).toBe('Todo not found');
             })
             .end(done);
     });
@@ -247,7 +259,8 @@ describe('PATCH /todos:id', () => {
             .send(updatedData)
             .expect(400)
             .expect((res) => {
-                expect(res.body.error).toBe('ID is not valid');
+                expect(res.body.ok).toBe(false)
+                expect(res.body.message).toBe('ID is not valid');
             })
             .end(done);
     })
@@ -263,8 +276,9 @@ describe('GET /users/me', () => {
             .set('x-auth', userToken)
             .expect(200)
             .expect((res) => {
-                expect(res.body._id).toEqual(users[0]._id.toHexString())
-                expect(res.body.email).toEqual(users[0].email)
+                expect(res.body.ok).toBe(true)
+                expect(res.body.user._id).toEqual(users[0]._id.toHexString())
+                expect(res.body.user.email).toEqual(users[0].email)
             })
             .end(done)
     })
@@ -274,9 +288,8 @@ describe('GET /users/me', () => {
             .get('/users/me')
             .expect(401)
             .expect((res) => {
-                expect(res.body).toEqual({
-                    error: 'Authentication failed : jwt must be provided'
-                })
+                expect(res.body.ok).toBe(false)
+                expect(res.body.message).toBe('Authentication failed : jwt must be provided')
             })
             .end(done)
     })
@@ -287,9 +300,8 @@ describe('GET /users/me', () => {
             .set('x-auth', 'banana')
             .expect(401)
             .expect((res) => {
-                expect(res.body).toEqual({
-                    error: 'Authentication failed : jwt malformed'
-                })
+                expect(res.body.ok).toBe(false)
+                expect(res.body.message).toBe('Authentication failed : jwt malformed')
             })
             .end(done)
     })
@@ -302,9 +314,8 @@ describe('GET /users/me', () => {
             .set('x-auth', userToken)
             .expect(401)
             .expect((res) => {
-                expect(res.body).toEqual({
-                    error: 'Authentication failed : invalid token'
-                })
+                expect(res.body.ok).toBe(false)
+                expect(res.body.message).toBe('Authentication failed : invalid token')
             })
             .end(done)
     })
@@ -321,9 +332,8 @@ describe('GET /users/me', () => {
             .set('x-auth', userToken)
             .expect(404)
             .expect((res) => {
-                expect(res.body).toEqual({
-                    error: 'User not found'
-                })
+                expect(res.body.ok).toBe(false)
+                expect(res.body.message).toBe('User not found')
             })
             .end(done)
     })
@@ -377,6 +387,7 @@ describe('POST /users', () => {
             })
             .expect(400)
             .expect((res) => {
+                expect(res.body.ok).toBe(false)
                 expect(res.body.message).toBe('Error while trying save user');
                 expect(res.body.error).toExist()
             })
@@ -395,6 +406,7 @@ describe('POST /users', () => {
             })
             .expect(400)
             .expect((res) => {
+                expect(res.body.ok).toBe(false)
                 expect(res.body.message).toBe('Error while trying save user');
                 expect(res.body.error).toExist()
             })
@@ -410,6 +422,7 @@ describe('POST /users', () => {
             })
             .expect(400)
             .expect((res) => {
+                expect(res.body.ok).toBe(false)
                 expect(res.body.message).toBe('Error while trying save user');
                 expect(res.body.error).toExist()
             })
