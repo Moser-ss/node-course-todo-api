@@ -1,12 +1,14 @@
 const _ = require('lodash');
 const { ObjectId } = require('mongodb');
 const { Todo } = require('../models/todo');
+const { authenticate } = require('../middleware/authenticate');
 const router = require('express').Router();
 
 //TODOS ENDPOINTS
-router.post('/', (req, res) => {
+router.post('/', authenticate, (req, res) => {
     let todo = new Todo({
-        text: req.body.text
+        text: req.body.text,
+        _creator: req.user._id
     });
     todo.save().then((doc) => {
         res.status(201).send({
@@ -20,8 +22,10 @@ router.post('/', (req, res) => {
         });
     });
 });
-router.get('/', (req, res) => {
-    Todo.find().then((todos) => {
+router.get('/', authenticate, (req, res) => {
+    Todo.find({
+        _creator: req.user._id
+    }).then((todos) => {
         res.send({
             ok: true,
             todos

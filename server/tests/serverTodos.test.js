@@ -1,15 +1,17 @@
 const expect = require('expect');
 const request = require('supertest');
+const _ = require('lodash')
 const { ObjectId } = require('mongodb');
 const { app } = require('../server');
 const { Todo } = require('../models/todo');
 const {
     todos,
     populateTodos,
+    users
 } = require('./seed/seed');
 
-const testDataSize = todos.length;
-exports.testDataSize = testDataSize;
+const user1Todos = _.filter(todos,{'_creator':users[0]._id}).length
+const testDataSize = todos.length
 
 beforeEach(populateTodos)
 describe('Todos routes tests',() => {
@@ -18,6 +20,7 @@ describe('Todos routes tests',() => {
             let text = 'Test todo text';
             request(app)
                 .post('/todos')
+                .set('x-auth',users[0].tokens[0].token)
                 .send({
                     text
                 })
@@ -25,6 +28,7 @@ describe('Todos routes tests',() => {
                 .expect((res) => {
                     expect(res.body.ok).toBe(true);
                     expect(res.body.todo.text).toBe(text);
+                    expect(res.body.todo._creator).toBe(`${users[0]._id}`)
                 })
                 .end((err, res) => {
                     if (err) {
@@ -43,6 +47,7 @@ describe('Todos routes tests',() => {
         it('should not create todo with invalid body data', (done) => {
             request(app)
                 .post('/todos')
+                .set('x-auth',users[0].tokens[0].token)
                 .send({})
                 .expect(400)
                 .expect((res) => {
@@ -65,10 +70,11 @@ describe('Todos routes tests',() => {
         it('should get all todos', (done) => {
             request(app)
                 .get('/todos')
+                .set('x-auth',users[0].tokens[0].token)
                 .expect(200)
                 .expect((res) => {
                     expect(res.body.ok).toBe(true);
-                    expect(res.body.todos.length).toBe(testDataSize);
+                    expect(res.body.todos.length).toBe(user1Todos);
                 })
                 .end(done);
         });
