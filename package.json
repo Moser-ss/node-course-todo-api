@@ -9,7 +9,8 @@
     "start": "node server/server.js"
   },
   "engines": {
-    "node": "8.11.3"
+    "node": "8.11.3",
+    "npm": "6.4.1"
   },
   "author": "moser.sts",
   "license": "ISC",
