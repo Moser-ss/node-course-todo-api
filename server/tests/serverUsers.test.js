@@ -208,7 +208,7 @@ describe('Users routes tests',() => {
                                 return done('Missing User in DB')
                             }
 
-                            expect(user.tokens[0]).toInclude({
+                            expect(user.tokens[1]).toInclude({
                                 access: 'auth',
                                 token: res.headers['x-auth']
                             })
@@ -233,10 +233,11 @@ describe('Users routes tests',() => {
         })
 
         it('should return 401 if password is incorrect', (done) => {
-        request(app)
+            const testUser = users[1]
+            request(app)
             .post('/users/login')
             .send({
-                email: users[1].email,
+                email: testUser.email,
                 password: 'Banana'
             })
             .expect(401)
@@ -252,13 +253,13 @@ describe('Users routes tests',() => {
                     return done(error)
                 }
 
-                User.findById(users[1]._id)
+                User.findById(testUser._id)
                     .then((user) => {
                         if (!user) {
                             return done('Missing User in DB')
                         }
 
-                        expect(user.tokens.length).toBe(0)
+                        expect(user.tokens.length).toBe(testUser.tokens.length)
                         done()
                     })
                     .catch((error) => done(error))

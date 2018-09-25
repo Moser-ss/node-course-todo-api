@@ -1,7 +1,13 @@
 const _ = require('lodash');
-const { ObjectId } = require('mongodb');
-const { Todo } = require('../models/todo');
-const { authenticate } = require('../middleware/authenticate');
+const {
+    ObjectId
+} = require('mongodb');
+const {
+    Todo
+} = require('../models/todo');
+const {
+    authenticate
+} = require('../middleware/authenticate');
 const router = require('express').Router();
 
 //TODOS ENDPOINTS
@@ -37,7 +43,7 @@ router.get('/', authenticate, (req, res) => {
         });
     });
 });
-router.get('/:id', (req, res) => {
+router.get('/:id', authenticate, (req, res) => {
     const todoId = req.params.id;
     if (!ObjectId.isValid(todoId)) {
         return res.status(400).send({
@@ -45,7 +51,10 @@ router.get('/:id', (req, res) => {
             message: 'ID is not valid'
         });
     }
-    Todo.findById(todoId).then((todo) => {
+    Todo.findOne({
+        _id: todoId,
+        _creator: req.user._id
+    }).then((todo) => {
         if (!todo) {
             return res.status(404).send({
                 ok: false,
@@ -64,7 +73,7 @@ router.get('/:id', (req, res) => {
         });
     });
 });
-router.delete('/:id', (req, res) => {
+router.delete('/:id', authenticate, (req, res) => {
     const todoId = req.params.id;
     if (!ObjectId.isValid(todoId)) {
         return res.status(400).send({
@@ -72,7 +81,10 @@ router.delete('/:id', (req, res) => {
             message: 'ID is not valid'
         });
     }
-    Todo.findByIdAndRemove(todoId).then((todo) => {
+    Todo.findOneAndRemove({
+        _id: todoId,
+        _creator: req.user._id
+    }).then((todo) => {
         if (!todo) {
             return res.status(404).send({
                 ok: false,
@@ -91,7 +103,7 @@ router.delete('/:id', (req, res) => {
         });
     });
 });
-router.patch('/:id', (req, res) => {
+router.patch('/:id', authenticate, (req, res) => {
     const todoId = req.params.id;
     const body = _.pick(req.body, ['text', 'completed']);
     if (!ObjectId.isValid(todoId)) {
@@ -102,34 +114,35 @@ router.patch('/:id', (req, res) => {
     }
     if (_.isBoolean(body.completed) && body.completed) {
         body.completedAt = new Date().getTime();
-    }
-    else {
+    } else {
         body.completed = false;
         body.completedAt = null;
     }
-    Todo.findByIdAndUpdate(todoId, {
+    Todo.findOneAndUpdate({
+        _id: todoId,
+        _creator: req.user._id
+    }, {
         $set: body
     }, {
-            new: true
-        })
-        .then((todo) => {
-            if (!todo) {
-                return res.status(404).send({
-                    ok: false,
-                    message: 'Todo not found'
-                });
-            }
-            res.send({
-                ok: true,
-                message: 'Todo updated',
-                todo
-            });
-        }).catch((err) => {
-            res.status(400).send({
+        new: true
+    }).then((todo) => {
+        if (!todo) {
+            return res.status(404).send({
                 ok: false,
-                message: 'Unable to update data'
+                message: 'Todo not found'
             });
+        }
+        res.send({
+            ok: true,
+            message: 'Todo updated',
+            todo
         });
+    }).catch((err) => {
+        res.status(400).send({
+            ok: false,
+            message: 'Unable to update data'
+        });
+    });
 });
 
 module.exports = router;
