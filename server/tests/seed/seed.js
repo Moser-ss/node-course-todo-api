@@ -9,19 +9,21 @@ const {
 
 const {
     User
-} = require('../../models/user');
+} = require('../../models/user')
+const JWT_SECRET = process.env.JWT_SECRET;
 const userOneID = new ObjectId()
 const userTwoID = new ObjectId()
 const access = 'auth'
+
 const userOneToken = jwt.sign({
     _id: userOneID,
     access
-}, 'MacOSX').toString()
+}, JWT_SECRET).toString()
 
 const userTwoToken = jwt.sign({
     _id: userTwoID,
     access
-}, 'MacOSX').toString()
+}, JWT_SECRET).toString()
 
 const users = [{
     _id: userOneID,

@@ -15,6 +15,7 @@ const {
     users,
     populateUsers
 } = require('./seed/seed');
+const JWT_SECRET = process.env.JWT_SECRET
 
 beforeEach(populateUsers)
 describe('Users routes tests',() => {
@@ -77,7 +78,7 @@ describe('Users routes tests',() => {
             const userToken = jwt.sign({
                 _id: userTestID,
                 access: 'auth'
-            }, 'MacOSX').toString()
+            }, JWT_SECRET).toString()
 
             request(app)
                 .get('/users/me')
