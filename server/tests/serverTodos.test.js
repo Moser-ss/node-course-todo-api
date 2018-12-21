@@ -146,7 +146,7 @@ describe('Todos routes tests',() => {
                         return done(err);
                     }
                     Todo.findById(todoId).then((todo) => {
-                        expect(todo).toNotExist();
+                        expect(todo).toBeFalsy();
                     }).catch((err) => done(err));
                     Todo.find().then((todos) => {
                         expect(todos.length).toBe(testDataSize - 1);
@@ -170,7 +170,7 @@ describe('Todos routes tests',() => {
                         return done(err);
                     }
                     Todo.findById(todoId).then((todo) => {
-                        expect(todo).toExist();
+                        expect(todo).toBeTruthy();
                     }).catch((err) => done(err));
                     Todo.find().then((todos) => {
                         expect(todos.length).toBe(testDataSize);
@@ -220,7 +220,7 @@ describe('Todos routes tests',() => {
                     const todo = res.body.todo;
                     expect(todo.text).toBe(updatedData.text);
                     expect(todo.completed).toBeTruthy();
-                    expect(todo.completedAt).toBeA('number');
+                    expect(typeof todo.completedAt).toBe('number')
                     expect(res.body.message).toBe('Todo updated');
                 })
                 .end(done);
@@ -260,7 +260,7 @@ describe('Todos routes tests',() => {
                     const todo = res.body.todo;
                     expect(todo.text).toBe(updatedData.text);
                     expect(todo.completed).toBeFalsy();
-                    expect(todo.completedAt).toNotExist();
+                    expect(todo.completedAt).toBeFalsy();
                     expect(res.body.message).toBe('Todo updated');
                 })
                 .end(done);

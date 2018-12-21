@@ -106,9 +106,9 @@ describe('Users routes tests',() => {
                 })
                 .expect(201)
                 .expect((res) => {
-                    expect(res.headers['x-auth']).toExist()
+                    expect(res.headers['x-auth']).toBeTruthy()
                     expect(res.body.ok).toBe(true)
-                    expect(res.body.user._id).toExist()
+                    expect(res.body.user._id).toBeTruthy()
                     expect(res.body.user.email).toBe(email)
                 })
                 .end((err) => {
@@ -120,8 +120,8 @@ describe('Users routes tests',() => {
                             email
                         })
                         .then((user) => {
-                            expect(user).toExist()
-                            expect(user.password).toNotBe(password)
+                            expect(user).toBeTruthy()
+                            expect(user.password).not.toBe(password)
                             done();
                         })
                         .catch((error) => done(error))
@@ -143,7 +143,7 @@ describe('Users routes tests',() => {
                 .expect((res) => {
                     expect(res.body.ok).toBe(false)
                     expect(res.body.message).toBe('Error while trying save user');
-                    expect(res.body.error).toExist()
+                    expect(res.body.error).toBeTruthy()
                 })
                 .end(done)
         })
@@ -162,7 +162,7 @@ describe('Users routes tests',() => {
                 .expect((res) => {
                     expect(res.body.ok).toBe(false)
                     expect(res.body.message).toBe('Error while trying save user');
-                    expect(res.body.error).toExist()
+                    expect(res.body.error).toBeTruthy()
                 })
                 .end(done)
         })
@@ -178,7 +178,7 @@ describe('Users routes tests',() => {
                 .expect((res) => {
                     expect(res.body.ok).toBe(false)
                     expect(res.body.message).toBe('Error while trying save user');
-                    expect(res.body.error).toExist()
+                    expect(res.body.error).toBeTruthy()
                 })
                 .end(done)
         })
@@ -194,8 +194,8 @@ describe('Users routes tests',() => {
                 .expect(200)
                 .expect((res) => {
                     expect(res.body.ok).toBe(true)
-                    expect(res.headers['x-auth']).toExist()
-                    expect(res.body.user._id).toExist()
+                    expect(res.headers['x-auth']).toBeTruthy()
+                    expect(res.body.user._id).toBeTruthy()
                     expect(res.body.user.email).toBe(users[1].email)
                 })
                 .end((error, res) => {
@@ -209,7 +209,7 @@ describe('Users routes tests',() => {
                                 return done('Missing User in DB')
                             }
 
-                            expect(user.tokens[1]).toInclude({
+                            expect(user.tokens[1]).toMatchObject({
                                 access: 'auth',
                                 token: res.headers['x-auth']
                             })
@@ -244,9 +244,9 @@ describe('Users routes tests',() => {
             .expect(401)
             .expect((res) => {
                 expect(res.body.ok).toBe(false)
-                expect(res.headers['x-auth']).toNotExist()
-                expect(res.body.user).toNotExist()
-                expect(res.body.user).toNotExist()
+                expect(res.headers['x-auth']).toBeFalsy()
+                expect(res.body.user).toBeFalsy()
+                expect(res.body.user).toBeFalsy()
                 expect(res.body.message).toBe('Invalid password')
             })
             .end((error, res) => {
