@@ -73,7 +73,7 @@ router.get('/:id', authenticate, (req, res) => {
         });
     });
 });
-router.delete('/:id', authenticate, (req, res) => {
+router.delete('/:id', authenticate, async (req, res) => {
     const todoId = req.params.id;
     if (!ObjectId.isValid(todoId)) {
         return res.status(400).send({
@@ -81,10 +81,11 @@ router.delete('/:id', authenticate, (req, res) => {
             message: 'ID is not valid'
         });
     }
-    Todo.findOneAndRemove({
-        _id: todoId,
-        _creator: req.user._id
-    }).then((todo) => {
+    try {
+        const todo = await Todo.findOneAndRemove({
+            _id: todoId,
+            _creator: req.user._id
+        });
         if (!todo) {
             return res.status(404).send({
                 ok: false,
@@ -96,12 +97,12 @@ router.delete('/:id', authenticate, (req, res) => {
             message: 'Todo deleted',
             todo
         });
-    }).catch((err) => {
+    } catch (error) {
         res.status(400).send({
             ok: false,
             message: 'Unable to delete data'
         });
-    });
+    }
 });
 router.patch('/:id', authenticate, (req, res) => {
     const todoId = req.params.id;
