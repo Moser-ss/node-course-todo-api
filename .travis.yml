@@ -13,3 +13,7 @@ addons:
 script:
   - npm run test-coverage
   - sonar-scanner
+
+branches:
+  only:
+  - master
