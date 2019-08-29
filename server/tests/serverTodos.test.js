@@ -129,7 +129,7 @@ describe('Todos routes tests',() => {
         });
     });
 
-    describe.only('DELETE /todos:id', () => {
+    describe('DELETE /todos:id', () => {
         it('should remove a todo', (done) => {
             const todoId = todos[2]._id.toHexString();
             request(app)
