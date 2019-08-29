@@ -129,7 +129,7 @@ describe('Todos routes tests',() => {
         });
     });
 
-    describe('DELETE /todos:id', () => {
+    describe.only('DELETE /todos:id', () => {
         it('should remove a todo', (done) => {
             const todoId = todos[2]._id.toHexString();
             request(app)
@@ -141,17 +141,21 @@ describe('Todos routes tests',() => {
                     expect(res.body.message).toBe('Todo deleted');
                     expect(res.body.todo.text).toBe(todos[2].text);
                 })
-                .end((err, res) => {
+                .end(async (err, res) => {
                     if (err) {
                         return done(err);
                     }
-                    Todo.findById(todoId).then((todo) => {
-                        expect(todo).toBeFalsy();
-                    }).catch((err) => done(err));
-                    Todo.find().then((todos) => {
+                    try {
+                        const [todo, todos ] = await Promise.all([
+                            Todo.findById(todoId),
+                            Todo.find()
+                        ])
+                        expect(todo).toBeFalsy()
                         expect(todos.length).toBe(testDataSize - 1);
-                    }).catch((err) => done(err));
-                    done();
+                        done();
+                    } catch (error) {
+                        done(error)
+                    }
                 });
         });
 
