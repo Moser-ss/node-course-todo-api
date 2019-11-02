@@ -11,13 +11,9 @@ addons:
 script:
 - npm run test-coverage
 - sonar-scanner
-branches:
-  only:
-  - master
+
 deploy:
   provider: heroku
   api_key:
     secure: A0SbfgYRivo+t3hocQI3cA7woY+mcfENj2h2yw7J3PcaBnEIJ8vnmk+SDRPLo7N0ICnJrN7v8rdDGjCG5ReQOkBKYEsvnKUML9iC0ceFAdRTJuck5MZfFt78uwXPp6Cc8X/qSAmGRirzRqOrX0SITXOKD6T+cKtemNv7pJjvVXTOVt6d1XysMykZkhkYAxtHDER37ZcUxQb4c/XmmyncQiGHXdkpi916Q3Pzoj2/Z7hAWeEbeMEPGe6J5M7LQjxn/dfhnoYwoG/BwBNLRTHCTb4RFDW0PYWrLRhVtYHwsd74/Sb1lUSKc/3XymUBjU0lP1Zx0SzBsBfhHG1WScVLyfyO57a+eQKM893a6iscaJ19Qy2RUE16VdKB+1FA+WGZKUk2b/sXiybN76AWxr6fts50N27zs7SoJg1yrmQb/8AZKCh9aLgtxKlaFunnZHqXir9YuDOmOi3cTifFShkDAleAMNMjkICwPrGiIa0cFUz8V/f2p2hr3kbDIVi4ljj6XBP/XQmhH9LwbYjm6CnIYCdompHkAvN3AH/O81ncWyvK0Rb3aHr6zTZRKtVClMMOpI3fDyiQn+2OyBKksJmg93NtHUlWmLd7jC2C96R7KZIqh2P7Awi01VajJQcy0FWXNGDu0uHiMH0mzomfQ4yRS1awmpgkPdO/9P8m+0KWEpA=
-  app: tranquil-ridge-45172
-  on:
-    repo: Moser-ss/node-course-todo-api
+  app: moser-ss-todo-api
