@@ -5,11 +5,11 @@ const {
 
 const {
     Todo
-} = require('../../models/todo');
+} = require('../../src/models/todo');
 
 const {
     User
-} = require('../../models/user')
+} = require('../../src/models/user')
 const JWT_SECRET = process.env.JWT_SECRET;
 const userOneID = new ObjectId()
 const userTwoID = new ObjectId()
@@ -64,14 +64,14 @@ const todos = [{
 
 
 const populateTodos = (done) => {
-    Todo.remove({}).then(() => {
+    Todo.deleteMany({}).then(() => {
             return Todo.insertMany(todos)
         })
         .then(() => done());
 }
 
 const populateUsers = (done) => {
-    User.remove({}).then(() => {
+    User.deleteMany({}).then(() => {
         const promises = []
         users.forEach(user => {
             promises.push(new User(user).save())

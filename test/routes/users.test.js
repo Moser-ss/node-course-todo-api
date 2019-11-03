@@ -7,14 +7,14 @@ const {
 
 const {
     app
-} = require('../server');
+} = require('../../src/server');
 const {
     User
-} = require('../models/user')
+} = require('../../src/models/user')
 const {
     users,
     populateUsers
-} = require('./seed/seed');
+} = require('../seed/seed');
 const JWT_SECRET = process.env.JWT_SECRET
 
 beforeEach(populateUsers)

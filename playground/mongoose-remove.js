@@ -4,13 +4,13 @@ const {
 
 const {
     mongoose
-} = require('./../server/db/mongoose');
+} = require('./../src/db/mongoose');
 const {
     Todo
-} = require('./../server/models/todo');
+} = require('./../src/models/todo');
 const {
     User
-} = require('./../server/models/user');
+} = require('./../src/models/user');
 
 // Todo.remove({}).then((result) => {
 //   console.log(result);
