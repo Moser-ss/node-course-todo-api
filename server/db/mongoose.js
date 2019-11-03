@@ -6,7 +6,8 @@ mongoose.Promise = global.Promise
 mongoose.connect(mongoURL,{ 
     useNewUrlParser: true,
     useUnifiedTopology: true,
-    useCreateIndex: true 
+    useCreateIndex: true,
+    useFindAndModify: false
 }).then(() => {
     console.log(`Connection opened to DB ${mongoURL}`);
 })
