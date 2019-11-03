@@ -2,13 +2,13 @@ const expect = require('expect');
 const request = require('supertest');
 const _ = require('lodash')
 const { ObjectId } = require('mongodb');
-const { app } = require('../server');
-const { Todo } = require('../models/todo');
+const { app } = require('../../src/server');
+const { Todo } = require('../../src/models/todo');
 const {
     todos,
     populateTodos,
     users
-} = require('./seed/seed');
+} = require('../seed/seed');
 
 const user1Todos = _.filter(todos,{'_creator':users[0]._id}).length
 const testDataSize = todos.length

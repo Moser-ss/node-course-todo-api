@@ -5,11 +5,11 @@ const {
 
 const {
     Todo
-} = require('../../models/todo');
+} = require('../../src/models/todo');
 
 const {
     User
-} = require('../../models/user')
+} = require('../../src/models/user')
 const JWT_SECRET = process.env.JWT_SECRET;
 const userOneID = new ObjectId()
 const userTwoID = new ObjectId()
