@@ -35,7 +35,7 @@ router.get('/', authenticate, (req, res) => {
             todos
         });
     }, (error) => {
-        sendError(res, 400, 'Fail to get todo', error)
+        sendError(res, 400, 'Fail to get todos', error)
     });
 });
 router.get('/:id', authenticate, (req, res) => {
