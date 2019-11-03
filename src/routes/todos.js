@@ -8,6 +8,7 @@ const {
 const {
     authenticate
 } = require('../middleware/authenticate');
+const { sendError }= require('../util');
 const router = require('express').Router();
 
 //TODOS ENDPOINTS
@@ -21,11 +22,8 @@ router.post('/', authenticate, (req, res) => {
             ok: true,
             todo: doc
         });
-    }, (err) => {
-        res.status(400).send({
-            ok: false,
-            message: err
-        });
+    }, (error) => {
+        sendError(res, 400, 'Fail to save todo', error)
     });
 });
 router.get('/', authenticate, (req, res) => {
@@ -36,50 +34,35 @@ router.get('/', authenticate, (req, res) => {
             ok: true,
             todos
         });
-    }, (err) => {
-        res.status(400).send({
-            ok: false,
-            message: err
-        });
+    }, (error) => {
+        sendError(res, 400, 'Fail to get todo', error)
     });
 });
 router.get('/:id', authenticate, (req, res) => {
     const todoId = req.params.id;
     if (!ObjectId.isValid(todoId)) {
-        return res.status(400).send({
-            ok: false,
-            message: 'ID is not valid'
-        });
+        return sendError(res, 400, 'ID is not valid')
     }
     Todo.findOne({
         _id: todoId,
         _creator: req.user._id
     }).then((todo) => {
         if (!todo) {
-            return res.status(404).send({
-                ok: false,
-                message: 'Todo not found'
-            });
+            return sendError(res, 404, 'Todo not found');
         }
         res.status(200).send({
             ok: true,
             message: 'Todo added',
             todo
         });
-    }).catch((err) => {
-        res.status(400).send({
-            ok: false,
-            message: 'Unable to get data'
-        });
+    }).catch((error) => {
+        sendError(res, 400, 'Unable to get data', error )
     });
 });
 router.delete('/:id', authenticate, async (req, res) => {
     const todoId = req.params.id;
     if (!ObjectId.isValid(todoId)) {
-        return res.status(400).send({
-            ok: false,
-            message: 'ID is not valid'
-        });
+        return sendError(res, 400,'ID is not valid');
     }
     try {
         const todo = await Todo.findOneAndRemove({
@@ -87,10 +70,7 @@ router.delete('/:id', authenticate, async (req, res) => {
             _creator: req.user._id
         });
         if (!todo) {
-            return res.status(404).send({
-                ok: false,
-                message: 'Todo not found'
-            });
+            return sendError(res, 404, 'Todo not found');
         }
         res.status(200).send({
             ok: true,
@@ -98,20 +78,14 @@ router.delete('/:id', authenticate, async (req, res) => {
             todo
         });
     } catch (error) {
-        res.status(400).send({
-            ok: false,
-            message: 'Unable to delete data'
-        });
+        sendError(res, 400, 'Unable to delete data', error)
     }
 });
 router.patch('/:id', authenticate, (req, res) => {
     const todoId = req.params.id;
     const body = _.pick(req.body, ['text', 'completed']);
     if (!ObjectId.isValid(todoId)) {
-        return res.status(400).send({
-            ok: false,
-            message: 'ID is not valid'
-        });
+        return sendError(res,400,'ID is not valid' );
     }
     if (_.isBoolean(body.completed) && body.completed) {
         body.completedAt = new Date().getTime();
@@ -128,21 +102,15 @@ router.patch('/:id', authenticate, (req, res) => {
         new: true
     }).then((todo) => {
         if (!todo) {
-            return res.status(404).send({
-                ok: false,
-                message: 'Todo not found'
-            });
+            return sendError(res, 404, 'Todo not found');
         }
         res.send({
             ok: true,
             message: 'Todo updated',
             todo
         });
-    }).catch((err) => {
-        res.status(400).send({
-            ok: false,
-            message: 'Unable to update data'
-        });
+    }).catch((error) => {
+        sendError(res, 400, 'Unable to update data', error);
     });
 });
 
