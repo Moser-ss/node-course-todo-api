@@ -52,7 +52,7 @@ describe('Todos routes tests',() => {
                 .expect(400)
                 .expect((res) => {
                     expect(res.body.ok).toBe(false);
-                    expect(res.body.message.name).toBe('ValidationError');
+                    expect(res.body.error.name).toBe('ValidationError');
                 })
                 .end((err, res) => {
                     if (err) {

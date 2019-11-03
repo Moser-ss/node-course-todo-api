@@ -4,7 +4,7 @@
   "description": "App to store notes",
   "main": "app.js",
   "scripts": {
-    "test": "export NODE_ENV=test && mocha test/**/*.test.js --exit",
+    "test": "export NODE_ENV=test && mocha 'test/**/*.test.js' --exit",
     "test-coverage": "nyc --reporter=lcov --reporter=text-summary npm test",
     "test-watch": "nodemon --exec \"npm test\"",
     "start": "node src/server.js",
@@ -33,6 +33,7 @@
     "mocha": "^5.2.0",
     "nodemon": "^1.17.5",
     "nyc": "^14.1.1",
+    "sinon": "^7.5.0",
     "supertest": "^3.1.0"
   }
 }
