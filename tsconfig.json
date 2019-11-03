@@ -1,0 +1,26 @@
+{
+	"compilerOptions": {
+		"target": "ES2016",
+		"module": "commonjs",
+		"sourceMap": true,
+		"outDir": "dist",
+		"strict": true,
+		"noImplicitAny": true,
+		"strictNullChecks": true,
+		"alwaysStrict": true,
+		"noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "pretty": true,
+		"typeRoots": [
+			"./node_modules/@types"
+		]
+	},
+	"include": [
+		"./dev/**/**.ts",
+		"./src/**/**.ts",
+		"./test/**/**.ts"
+	],
+	"exclude": [
+		"./node_modules"
+	]
+}
