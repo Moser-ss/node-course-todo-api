@@ -9,6 +9,8 @@
 		"strictNullChecks": true,
 		"alwaysStrict": true,
 		"noUnusedLocals": true,
+		"moduleResolution": "node",
+		"resolveJsonModule": true,
     "noUnusedParameters": true,
     "pretty": true,
 		"typeRoots": [
