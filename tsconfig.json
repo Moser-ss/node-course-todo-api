@@ -11,10 +11,12 @@
 		"noUnusedLocals": true,
 		"moduleResolution": "node",
 		"resolveJsonModule": true,
+		"esModuleInterop": true,
     "noUnusedParameters": true,
     "pretty": true,
 		"typeRoots": [
-			"./node_modules/@types"
+			"./node_modules/@types",
+			"./types"
 		]
 	},
 	"include": [
@@ -22,6 +24,7 @@
 		"./test/**/**.ts"
 	],
 	"exclude": [
-		"./node_modules"
+		"./node_modules",
+		"typings"
 	]
 }

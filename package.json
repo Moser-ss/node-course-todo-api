@@ -4,7 +4,7 @@
   "description": "App to store notes",
   "main": "app.js",
   "scripts": {
-    "test": "export NODE_ENV=test && mocha 'test/**/*.test.js' --exit",
+    "test": "export NODE_ENV=test && mocha -r ts-node/register 'test/**/*.test.js' --exit",
     "test-coverage": "nyc --reporter=lcov --reporter=text-summary npm test",
     "test-watch": "nodemon --exec \"npm test\"",
     "build": "rm -rf dist && tsc",
@@ -27,11 +27,17 @@
     "lodash": "^4.17.11",
     "mongodb": "^3.3.3",
     "mongoose": "^5.7.5",
+    "ts-mongoose": "0.0.21",
     "validator": "^10.11.0"
   },
   "devDependencies": {
-    "@types/node": "^12.12.5",
+    "@types/bcryptjs": "^2.4.2",
+    "@types/express": "^4.17.2",
+    "@types/jsonwebtoken": "^8.3.5",
+    "@types/lodash": "^4.14.144",
     "@types/mongoose": "^5.5.28",
+    "@types/node": "^12.12.5",
+    "@types/validator": "^10.11.3",
     "@typescript-eslint/eslint-plugin": "^2.6.0",
     "@typescript-eslint/parser": "^2.6.0",
     "eslint": "^6.6.0",
