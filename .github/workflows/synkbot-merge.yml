@@ -1,13 +1,12 @@
 name: Auto merge
 
 on:
+  status:
+
   push:
     branches-ignore:
       - master
       
-  check_suite:
-    types:
-      - completed
 jobs:
   auto-merge:
     name: Auto merge
