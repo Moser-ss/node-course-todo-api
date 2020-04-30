@@ -1,4 +1,4 @@
-name: Merge me!
+name: Auto merge
 
 on:
   check_suite:
@@ -16,11 +16,11 @@ on:
       - unlocked
 
 jobs:
-  merge-me:
-    name: Merge me!
+  auto-merge:
+    name: Auto merge
     runs-on: ubuntu-latest
     steps:
-      - name: Merge me!
+      - name: Snyk auto merge
         uses: ridedott/merge-me-action@master
         with:
           GITHUB_LOGIN: snyk-bot
