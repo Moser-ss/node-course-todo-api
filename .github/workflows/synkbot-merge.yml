@@ -1,8 +1,11 @@
 name: Auto merge
 
 on:
+  push:
+    branches-ignore:
+      - master
+      
   status:
-
 jobs:
   auto-merge:
     name: Auto merge
