@@ -8,7 +8,9 @@
     "test-coverage": "nyc --reporter=lcov --reporter=text-summary npm test",
     "test-watch": "nodemon --exec \"npm test\"",
     "start": "node src/server.js",
-    "start:watch": "nodemon --watch src src/server.js"
+    "start:watch": "nodemon --watch src src/server.js",
+    "snyk-protect": "snyk protect",
+    "prepare": "npm run snyk-protect"
   },
   "engines": {
     "node": "8.11.3",
@@ -17,16 +19,17 @@
   "author": "moser.sts",
   "license": "ISC",
   "dependencies": {
-    "@snyk/nodejs-runtime-agent": "^1.46.1",
-    "bcryptjs": "^2.4.3",
-    "body-parser": "^1.18.3",
-    "crypto-js": "^3.2.1",
-    "express": "^4.17.1",
-    "jsonwebtoken": "^8.3.0",
-    "lodash": "^4.17.11",
-    "mongoose": "5.8.11",
-    "mongodb": "3.5.4",
-    "validator": "^10.11.0"
+    "@snyk/nodejs-runtime-agent": "1.46.1",
+    "bcryptjs": "2.4.3",
+    "body-parser": "1.18.3",
+    "crypto-js": "3.2.1",
+    "express": "4.17.1",
+    "jsonwebtoken": "8.3.0",
+    "lodash": "4.17.15",
+    "snyk": "1.316.1",
+    "mongoose": "5.9.11",
+    "mongodb": "3.5.7",
+    "validator": "10.11.0"
   },
   "devDependencies": {
     "expect": "^24.0.0",
@@ -35,5 +38,6 @@
     "nyc": "^14.1.1",
     "sinon": "^7.5.0",
     "supertest": "^3.1.0"
-  }
+  },
+  "snyk": true
 }
