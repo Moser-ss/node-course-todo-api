@@ -1,6 +1,10 @@
 name: Auto merge
 
 on:
+  push:
+    branches-ignore:
+      - master
+      
   check_suite:
     types:
       - completed
