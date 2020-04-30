@@ -1,23 +1,9 @@
 name: Auto merge
 
 on:
-  check_run:
-    types:
-      - completed
   check_suite:
     types:
       - completed
-  pull_request:
-    types:
-      - edited
-      - labeled
-      - opened
-      - ready_for_review
-      - reopened
-      - synchronize
-      - unlabeled
-      - unlocked
-
 jobs:
   auto-merge:
     name: Auto merge
