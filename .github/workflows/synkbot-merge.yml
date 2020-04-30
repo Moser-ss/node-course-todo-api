@@ -5,9 +5,7 @@ on:
     branches-ignore:
       - master
       
-  check_suite:
-    types:
-      - completed
+  status:
 jobs:
   auto-merge:
     name: Auto merge
