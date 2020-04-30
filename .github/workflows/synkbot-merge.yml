@@ -3,10 +3,6 @@ name: Auto merge
 on:
   status:
 
-  push:
-    branches-ignore:
-      - master
-      
 jobs:
   auto-merge:
     name: Auto merge
