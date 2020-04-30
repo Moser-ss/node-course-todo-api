@@ -1,0 +1,27 @@
+name: Auto merge
+
+on:
+  check_suite:
+    types:
+      - completed
+  pull_request:
+    types:
+      - edited
+      - labeled
+      - opened
+      - ready_for_review
+      - reopened
+      - synchronize
+      - unlabeled
+      - unlocked
+
+jobs:
+  auto-merge:
+    name: Auto merge
+    runs-on: ubuntu-latest
+    steps:
+      - name: Snyk auto merge
+        uses: ridedott/merge-me-action@master
+        with:
+          GITHUB_LOGIN: snyk-bot
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
