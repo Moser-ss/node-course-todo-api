@@ -1,6 +1,8 @@
 name: Auto merge
 
-on: [status]
+on:
+  check_suite:
+    types: [rerequested, completed]
 
 jobs:
   auto-merge:
