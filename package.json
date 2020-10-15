@@ -19,7 +19,7 @@
   "author": "moser.sts",
   "license": "ISC",
   "dependencies": {
-    "@snyk/nodejs-runtime-agent": "1.47.0",
+    "@snyk/nodejs-runtime-agent": "1.47.1",
     "bcryptjs": "2.4.3",
     "body-parser": "1.19.0",
     "crypto-js": "3.3.0",
