@@ -8,9 +8,7 @@
     "test-coverage": "nyc --reporter=lcov --reporter=text-summary npm test",
     "test-watch": "nodemon --exec \"npm test\"",
     "start": "node src/server.js",
-    "start:watch": "nodemon --watch src src/server.js",
-    "snyk-protect": "snyk protect",
-    "prepare": "npm run snyk-protect"
+    "start:watch": "nodemon --watch src src/server.js"
   },
   "engines": {
     "node": "14",
@@ -28,7 +26,6 @@
     "lodash": "4.17.20",
     "mongodb": "3.6.2",
     "mongoose": "5.10.15",
-    "snyk": "^1.430.0",
     "validator": "10.11.0"
   },
   "devDependencies": {
@@ -38,6 +35,5 @@
     "nyc": "^14.1.1",
     "sinon": "^7.5.0",
     "supertest": "^3.1.0"
-  },
-  "snyk": true
+  }
 }
