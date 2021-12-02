@@ -29,7 +29,7 @@
     "validator": "13.6.0"
   },
   "devDependencies": {
-    "expect": "^25.0.0",
+    "expect": "^25.5.0",
     "mocha": "^6.2.3",
     "nodemon": "^2.0.3",
     "nyc": "^15.0.0",
