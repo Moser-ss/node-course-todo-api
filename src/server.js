@@ -1,6 +1,3 @@
-require('@snyk/nodejs-runtime-agent')
-({projectId: '991fca1d-4af6-406f-9663-c919eeed8a31',
-});
 require('./config/config.js');
 const express = require('express');
 const bodyParser = require('body-parser');
