@@ -11,8 +11,8 @@
     "start:watch": "nodemon --watch src src/server.js"
   },
   "engines": {
-    "node": "14",
-    "npm": "7"
+    "node": "16.14",
+    "npm": "8"
   },
   "author": "moser.sts",
   "license": "ISC",
