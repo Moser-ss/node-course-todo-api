@@ -23,7 +23,7 @@
     "express": "4.17.2",
     "jsonwebtoken": "8.5.1",
     "mongoose": "5.13.9",
-    "mongodb": "3.6.4",
+    "mongodb": "3.7.3",
     "lodash": "4.17.21",
     "validator": "13.7.0"
   },
