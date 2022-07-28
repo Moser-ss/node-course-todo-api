@@ -22,7 +22,7 @@
     "crypto-js": "4.1.1",
     "express": "4.17.2",
     "jsonwebtoken": "8.5.1",
-    "mongoose": "5.13.9",
+    "mongoose": "6.4.6",
     "mongodb": "3.7.3",
     "lodash": "4.17.21",
     "validator": "13.7.0"
