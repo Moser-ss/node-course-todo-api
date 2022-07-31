@@ -14,7 +14,7 @@ jobs:
     runs-on: ubuntu-latest
     services:
       mongodb:
-        image: mongo:4.0
+        image: mongo:5.0
         ports:
           - "27017:27017"
     steps:
@@ -34,6 +34,7 @@ jobs:
         SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
 
   automerge:
+    if: ${{ github.event_name == 'pull_request' }}
     needs: build
     runs-on: ubuntu-latest
     permissions:
