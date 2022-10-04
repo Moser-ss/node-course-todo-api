@@ -1,4 +1,4 @@
-const expect = require('expect');
+const { expect }  = require('expect');
 const jwt = require('jsonwebtoken')
 const request = require('supertest');
 const {
