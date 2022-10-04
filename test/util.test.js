@@ -1,6 +1,6 @@
 const sinon = require('sinon');
 const { sendError } = require('../src/util');
-const expect = require('expect');
+const {expect} = require('expect')
 
 describe('Util.js module', () => {
     describe('sendError function', () => {
