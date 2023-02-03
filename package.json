@@ -25,7 +25,7 @@
     "mongoose": "6.9.0",
     "mongodb": "4.13.0",
     "lodash": "4.17.21",
-    "validator": "13.7.0"
+    "validator": "13.9.0"
   },
   "devDependencies": {
     "expect": "^25.0.0",
